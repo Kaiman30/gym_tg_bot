@@ -36,11 +36,12 @@ async def help(message: Message) -> None:
 @dp.message(Command("w"))
 async def weight(message: Message, command: CommandObject):
     """Команда /w (weight)"""
-    data = command.args
+    data = command.args.capitalize()
     if data:
         data = data.split()
-        exercise = data[0]
-        weight = data[1]
+        exercise = data[:-1] # [1, 2, 3]
+        exercise = ' '.join(exercise)
+        weight = data[-1]
         
         await db.add_weight(message.from_user.id, message.from_user.full_name, exercise, weight)
         await message.answer(f'Упражнение: <b>{exercise}</b>\n'
@@ -63,7 +64,7 @@ async def list_(message: Message):
 @dp.message(Command("cw"))
 async def current_weight(message: Message, command: CommandObject):
     """Команда /cw (Текущие веса)"""
-    exes = command.args
+    exes = command.args.capitalize()
     current_weight = await db.current_weight(message.from_user.id, exes)
     if current_weight:
         await message.answer(f'Текущие вес на упражнение "{exes}": <b>{current_weight[0]}</b>')
