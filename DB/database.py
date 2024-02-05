@@ -14,13 +14,6 @@ async def db_start():
     db.commit()
 
 
-# async def cmd_db_start(user_id, user_firstname):
-#     user = cur.execute("SELECT * FROM exes WHERE tg_id == ?", (user_id,)).fetchone()
-#     if not user:
-#         cur.execute("INSERT INTO exes (tg_id, username) VALUES (?, ?)", (user_id, user_firstname))
-#         db.commit()
-
-
 async def add_weight(user_id, user_firstname, exercise, weight):
     ex_check = cur.execute("SELECT * FROM exes WHERE tg_id == ? AND exercise == ?", (user_id, exercise)).fetchone()
     if ex_check:
