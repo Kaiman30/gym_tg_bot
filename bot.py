@@ -1,11 +1,10 @@
 import asyncio
+from DB import database as db
 
 from aiogram import Router, Bot, Dispatcher, F
 from aiogram.types import Message
 from aiogram.filters import Command, CommandObject
 from aiogram.enums import ParseMode
-
-from DB import database as db
 
 
 # выборка токена бота
@@ -21,7 +20,7 @@ async def start(message: Message) -> None:
     """Команда /start"""
     #await db.cmd_db_start(message.from_user.id, message.from_user.full_name)
     await message.answer(f'Привет! \n<b>Я</b> - бот помощник для тренировок\n'
-                         f'Чтобы получше узнать мой функционал, пиши "Помощь"''')
+                         f'Чтобы получше узнать мой функционал, пиши "/help"')
 
 
 @dp.message(Command("help"))
@@ -42,7 +41,7 @@ async def weight(message: Message, command: CommandObject):
         exercise = data[:-1] # [1, 2, 3]
         exercise = ' '.join(exercise)
         weight = data[-1]
-        
+
         await db.add_weight(message.from_user.id, message.from_user.full_name, exercise, weight)
         await message.answer(f'Упражнение: <b>{exercise}</b>\n'
                              f'Вес: <b>{weight}</b>')
@@ -59,7 +58,7 @@ async def list_(message: Message):
         await message.answer(output)
     else:
         await message.answer('❌ Список записанных упражнений пуст')
-        
+
 
 @dp.message(Command("cw"))
 async def current_weight(message: Message, command: CommandObject):
