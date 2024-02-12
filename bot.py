@@ -1,5 +1,6 @@
 import asyncio
 from DB import database as db
+import logging
 
 from aiogram import Router, Bot, Dispatcher, F
 from aiogram.types import Message
@@ -80,4 +81,8 @@ async def main() -> None:
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    logging.basicConfig(level=logging.INFO) # выключить на проде
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Бот остановлен")
